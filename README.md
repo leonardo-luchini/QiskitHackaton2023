@@ -1,3 +1,4 @@
 # QiskitHackaton2023
 
-This is the repository for the 2023 Qiskit Hackaton @ World of Quantum
+We chose a challenge regarding Highly Entangled States because it the easiest one to grasp and comprehend fully with little to prior knowldege.
+
