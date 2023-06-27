@@ -1,0 +1,27 @@
+! pip install pydot pillow
+## Also install separately graphviz to show the graphs
+
+from rustworkx import minimum_spanning_edges, PyGraph, dijkstra_shortest_path_lengths
+from rustworkx.visualization import graphviz_draw
+
+## Implementing a cost function for different error models, determine the parameters for an optimal convergence in the future
+def edge_cost_fn(weight):
+    return math.exp(weight)
+## Create a graph with the qubits as nodes and their links' error (generically speaking) as edges 
+graph = PyGraph()
+graph.extend_from_weighted_edge_list([(0, 1, 1.61e-2), (1, 2,8.46e-3), (1, 4, 4.73e-3), (2, 3, 1.2e-2), (3, 5, 1.02e-2), (4, 7, 1.22e-2), (5, 8, 6.13e-3), (6, 7, 7.06e-3), (7, 10, 7.3e-3), (8, 9,1.16e-2),(8, 11, 9.11e-3),(10, 12, 1.77e-2),(11, 14, 1e-2),(12, 13,1.8e-2),(12, 15,8.02e-3),(13, 14, 2.29e-2)])
+
+## Find the best node
+
+min_max_length = float('inf')
+centroid = None
+for node in graph.node_indices():
+    lengths = dijkstra_shortest_path_lengths(graph, node, edge_cost_fn)
+    max_length = max(lengths.values())
+    if max_length < min_max_length:
+        min_max_length = max_length
+        centroid = node
+
+print(f"Centroid: {centroid}")
+
+graphviz_draw(mst_graph,method='neato')
