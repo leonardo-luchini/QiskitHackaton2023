@@ -1,0 +1,34 @@
+my_variables = set(dir())
+
+
+# Get a fake backend from the fake provider
+prague = FakePrague()
+sherbrooke = FakeSherbrooke()
+auckland = FakeAuckland()
+quitov2 = FakeQuitoV2()
+
+
+# Create a simple circuit
+num_qubits_sherbrooke = sherbrooke.num_qubits
+circuit = QuantumCircuit(num_qubits_sherbrooke)
+circuit.h(0)
+for i in range(num_qubits_sherbrooke-1):
+    circuit.cx(i,i+1)
+
+# this circuit is way too large to be shown in a figure
+circuit.measure_all()
+# circuit.draw()
+
+# Get the final state as a Statevector object
+final_state = Statevector.from_instruction(circuit)
+
+# Calculate the von-Neumann entropy of the final state
+ent = entropy(final_state)
+
+print(f'Entropy: {ent}')
+
+
+naive_depth_sherbrooke = circuit.depth()
+print(naive_depth_sherbrooke)
+
+
